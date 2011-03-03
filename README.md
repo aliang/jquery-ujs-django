@@ -1,3 +1,20 @@
+jquery-ujs for Django
+========================================
+Works like the old one. Since Django's CsrfMiddleware doesn't:
+
+- give you an easy way to make the meta tag
+- send the token in the header
+
+I modified it. It's still called rails.js in the repo, though.
+
+It instead sends the token the way django wants it, which is as an additional POST parameter named 'csrfmiddlewaretoken'. To get the token, it uses the selector "#csrf_token input" and reads the resulting element's value attribute. The easiest way to set this up is to put something like
+
+    <div id="csrf_token">{% csrf_token %}</div>
+
+in your template.
+
+Also, I haven't updated the tests to reflect the new tag placement.
+
 Unobtrusive scripting adapter for jQuery
 ========================================
 
