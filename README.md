@@ -2,8 +2,8 @@ jquery-ujs for Django
 ========================================
 Works like the old one. Since Django's CsrfMiddleware doesn't:
 
-- give you an easy way to make the meta tag
-- send the token in the header
+- give you an easy way to make the meta tag that Rails uses
+- look for the CSRF token in the HTTP headers
 
 I modified it. It's still called rails.js in the repo, though.
 
