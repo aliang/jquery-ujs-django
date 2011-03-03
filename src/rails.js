@@ -3,17 +3,26 @@
  *
  * Requires jQuery 1.4.3 or later.
  * https://github.com/rails/jquery-ujs
+ * Django modification
+ * https://github.com/aliang/jquery-ujs-django
  */
-
 (function($) {
+  function getCSRFToken() {
+    return $('#csrf_token input').val();
+  }
+  
+  function getCSRFParam() {
+    return 'csrfmiddlewaretoken';
+  }
+  
 	// Make sure that every Ajax request sends the CSRF token
-	function CSRFProtection(xhr) {
-		var token = $('meta[name="csrf-token"]').attr('content');
-		if (token) xhr.setRequestHeader('X-CSRF-Token', token);
+	function CSRFProtection(options) {
+		var token = getCSRFToken();
+		if (token) options[getCSRFParam()] = token;
 	}
-	if ('ajaxPrefilter' in $) $.ajaxPrefilter(function(options, originalOptions, xhr){ CSRFProtection(xhr) });
-	else $(document).ajaxSend(function(e, xhr){ CSRFProtection(xhr) });
-
+	if ('ajaxPrefilter' in $) $.ajaxPrefilter(function(options, originalOptions, xhr){ CSRFProtection(options) });
+	else $(document).ajaxSend(function(e, xhr, options){ CSRFProtection(options) });
+  
 	// Triggers an event on an element and returns the event result
 	function fire(obj, name, data) {
 		var event = new $.Event(name);
@@ -68,11 +77,15 @@
 	function handleMethod(link) {
 		var href = link.attr('href'),
 			method = link.attr('data-method'),
-			csrf_token = $('meta[name=csrf-token]').attr('content'),
-			csrf_param = $('meta[name=csrf-param]').attr('content'),
+			// getting token for Django, not rails
+			csrf_token = getCSRFToken(),
+			csrf_param = getCSRFParam(),
 			form = $('<form method="post" action="' + href + '"></form>'),
-			metadata_input = '<input name="_method" value="' + method + '" type="hidden" />';
+			// only for Rails
+			// metadata_input = '<input name="_method" value="' + method + '" type="hidden" />';
+			metadata_input = '';
 
+    console.log(csrf_token);
 		if (csrf_param !== undefined && csrf_token !== undefined) {
 			metadata_input += '<input name="' + csrf_param + '" value="' + csrf_token + '" type="hidden" />';
 		}
