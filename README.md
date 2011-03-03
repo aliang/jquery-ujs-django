@@ -15,6 +15,8 @@ in your template.
 
 Also, I haven't updated the tests to reflect the new tag placement.
 
+Old README is below.
+
 Unobtrusive scripting adapter for jQuery
 ========================================
 
