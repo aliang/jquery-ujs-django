@@ -9,7 +9,7 @@ I modified it. It's still called rails.js in the repo, though.
 
 It instead sends the token the way django wants it, which is as an additional POST parameter named 'csrfmiddlewaretoken'. To get the token, it uses the selector "#csrf_token input" and reads the resulting element's value attribute. The easiest way to set this up is to put something like
 
-    <div id="csrf_token">{% csrf_token %}</div>
+    <form id="csrf_token" style="display:none">{% csrf_token %}</form>
 
 in your template.
 
