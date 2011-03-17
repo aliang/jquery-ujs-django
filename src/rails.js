@@ -5,6 +5,17 @@
  * https://github.com/rails/jquery-ujs
  * Django modification
  * https://github.com/aliang/jquery-ujs-django
+ *
+ * Modified to get CSRF from tag in body, since Django doesn't set the CSRF
+ * token in the head like Rails does.
+ *
+ * Inside the <body> tag, just put
+ * <form id="csrf_token" style="display:none">{% csrf_token %}</form>
+ * if you have the csrf middleware installed. Or modify getCSRFToken to get
+ * the token from the right place.
+ *
+ * If you are using jquery-ba-bbq from Ben Alman, then the library will
+ * also serialize the query params in the URL. This is experimental.
  */
 (function($) {
   function getCSRFToken() {
@@ -48,6 +59,10 @@
 		} else {
 			method = element.attr('data-method');
 			url = element.attr('href');
+			// TODO: Not tested
+			if ($.deparam) {
+        data = $.deparam.querystring(href);
+      }
 			data = null;
 		}
 
@@ -85,12 +100,18 @@
 			// metadata_input = '<input name="_method" value="' + method + '" type="hidden" />';
 			metadata_input = '';
 
-    console.log(csrf_token);
 		if (csrf_param !== undefined && csrf_token !== undefined) {
 			metadata_input += '<input name="' + csrf_param + '" value="' + csrf_token + '" type="hidden" />';
 		}
-
 		form.hide().append(metadata_input).appendTo('body');
+
+		if ($.deparam) {
+      var params = $.deparam.querystring(href);
+      $.each(params, function(k,v) {
+        var input = '<input name="' + k + '" value="' + v + '" type="hidden" />';
+        form.append(input);
+      });
+    }
 		form.submit();
 	}
 
