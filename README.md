@@ -11,9 +11,9 @@ It instead sends the token the way django wants it, which is as an additional PO
 
     <form id="csrf_token" style="display:none">{% csrf_token %}</form>
 
-in your template.
+in your template. Also, I haven't updated the tests to reflect the new tag placement.
 
-Also, I haven't updated the tests to reflect the new tag placement.
+You can download the file here: [https://github.com/aliang/jquery-ujs-django/blob/master/src/rails.js]
 
 Old README is below.
 
