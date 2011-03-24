@@ -13,7 +13,7 @@ It instead sends the token the way django wants it, which is as an additional PO
 
 in your template. Also, I haven't updated the tests to reflect the new tag placement.
 
-You can download the file here: [https://github.com/aliang/jquery-ujs-django/blob/master/src/rails.js]
+[You can download the file here.][https://github.com/aliang/jquery-ujs-django/blob/master/src/rails.js]
 
 Old README is below.
 
