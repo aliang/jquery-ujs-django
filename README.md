@@ -1,19 +1,19 @@
 jquery-ujs for Django
 ========================================
-Works like the old one. Since Django's CsrfMiddleware doesn't:
+Works like the one for Rails. Django's CsrfMiddleware differs from Rails's CSRF protection in the following ways:
 
-- give you an easy way to make the meta tag that Rails uses
-- look for the CSRF token in the HTTP headers
+- The CSRF token is included in the HTML on a per form basis, instead of as a meta tag in the head element of your HTML
+- The CSRF token is sent as a POST parameter instead of as an HTTP header
 
-I modified it. It's still called rails.js in the repo, though.
+I modified the rails.js file to reflect these changes. It's still called rails.js in the repo, though.
 
-It instead sends the token the way django wants it, which is as an additional POST parameter named 'csrfmiddlewaretoken'. To get the token, it uses the selector "#csrf_token input" and reads the resulting element's value attribute. The easiest way to set this up is to put something like
+The additional POST parameter is named 'csrfmiddlewaretoken'. To get the token, it uses the selector "#csrf_token input" and reads the resulting element's value attribute. The easiest way to set this up is to put something like
 
     <form id="csrf_token" style="display:none">{% csrf_token %}</form>
 
-in your template. Also, I haven't updated the tests to reflect the new tag placement.
+in your template. I haven't updated the tests to reflect the new token placement.
 
-[You can download the file here.](https://github.com/aliang/jquery-ujs-django/raw/master/src/rails.js) Then include it your page, to be loaded after jQuery has loaded.
+[You can download the file here.](https://github.com/aliang/jquery-ujs-django/raw/master/src/rails.js) After you have the hidden token element included in your HTML, load the JavaScript file in your page after jQuery has loaded.
 
 Old README is below.
 
